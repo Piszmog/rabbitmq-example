@@ -26,18 +26,21 @@ type Producer struct {
 
 var logger zap.SugaredLogger
 
+// Creates the logger
 func init() {
     zapLogger := util.CreateLogger()
     defer zapLogger.Sync()
     logger = *zapLogger.Sugar()
 }
 
+// Stop the application if an error occurred
 func failOnError(err error, msg string) {
     if err != nil {
         logger.Fatalf("%s: %s", msg, err)
     }
 }
 
+// Connect to AMQP
 func (connection *Connection) Connect(url string) {
     conn, err := amqp.Dial(url)
     failOnError(err, "failed to connect to RabbitMQ")
@@ -47,11 +50,13 @@ func (connection *Connection) Connect(url string) {
     connection.channel = channel
 }
 
+// Close the connection
 func (connection *Connection) Close() {
     connection.connection.Close()
     connection.channel.Close()
 }
 
+// Create a producer to a provided exchange with the specified routing key
 func CreateProducer(connection *Connection, exchange string, routingKey string) Producer {
     var producer Producer
     producer.connection = connection
@@ -60,6 +65,7 @@ func CreateProducer(connection *Connection, exchange string, routingKey string) 
     return producer
 }
 
+// Create a consumer for the specified queue
 func CreateConsumer(connection *Connection, queue string) Consumer {
     var consumer Consumer
     consumer.connection = connection
@@ -67,6 +73,7 @@ func CreateConsumer(connection *Connection, queue string) Consumer {
     return consumer
 }
 
+// Publish the message
 func (producer *Producer) Publish(body []byte) {
     err := producer.connection.channel.Publish(
         producer.exchange,
@@ -82,6 +89,7 @@ func (producer *Producer) Publish(body []byte) {
     }
 }
 
+// Start consuming for the queue
 func (consumer *Consumer) StartConsumption(consumeFunction consume) {
     messages, err := consumer.connection.channel.Consume(
         consumer.queue,
@@ -95,7 +103,6 @@ func (consumer *Consumer) StartConsumption(consumeFunction consume) {
     if err != nil {
         logger.Fatalf("failed consume a message, %v", err)
     }
-    forever := make(chan bool)
+    // operate on the message
     go consumeFunction(messages)
-    <-forever
 }
