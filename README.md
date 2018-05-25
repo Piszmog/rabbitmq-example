@@ -27,7 +27,7 @@ The application uses the URL from the `cloudamqp` environment variable to connec
 
 #### Embedded Server
 To deploy to Cloud Foundry, the platform tries to do health check on the application to ensure the app started successfully. 
-To allow this to happen, a server needed to be started.
+To allow this to happen, a server needs to be started.
 
 ### Pushing
 To push to Cloud Foundry, change directories to where the `manifest.yml` file is located and run 
