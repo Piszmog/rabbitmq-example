@@ -2,8 +2,8 @@
 Example if a Pub/Sub model in Go. It is also deployable to Cloud Foundry.
 
 ## Packages
-* `github.com/goolge/uuid`
-  * Generates UUIDs
+* `github.com/streadway/amqp`
+  * RabbitMQ library
 * `go.uber.org/zap`
   * The logging framework
 
