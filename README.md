@@ -20,6 +20,14 @@ In the `manifest.yml`, it specifies the application's name, the buildpack (Cloud
 the memory (I am still testing the least amount of memory required), instances, environment variables, and any services to bind to.
 
 #### Rabbitmq Service
+The application binds to [CloudAMQP](https://docs.run.pivotal.io/marketplace/services/cloudamqp.html). When the application binds 
+to the RabbitMQ service, environment variables are placed on the application.
+
+The application uses the URL from the `cloudamqp` environment variable to connect to the MQ service.
+
+#### Embedded Server
+To deploy to Cloud Foundry, the platform tries to do health check on the application to ensure the app started successfully. 
+To allow this to happen, a server needed to be started.
 
 ### Pushing
 To push to Cloud Foundry, change directories to where the `manifest.yml` file is located and run 
