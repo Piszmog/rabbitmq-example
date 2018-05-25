@@ -1,0 +1,11 @@
+---
+applications:
+  - name: rabbitmq-demo
+    buildpack: go_buildpack
+    memory: 5M
+    instances: 1
+    env:
+      GOPACKAGENAME: github.com/Piszmog/rabbitmq-example
+      GOVERSION: go1.10
+    services:
+     - rabbitmq
