@@ -36,4 +36,4 @@ To push to Cloud Foundry, change directories to where the `manifest.yml` file is
 Cloud Foundry will build the application and run it.
 
 ## Local running
-Simply run the `main()` function. 
+Simply run the `main()` function. And ensure a local RabbitMQ server is running.
